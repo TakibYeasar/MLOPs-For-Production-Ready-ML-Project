@@ -1,5 +1,5 @@
 import sys
-from src.exception import USvisaException
+from src.exception import AppException
 from src.logger import logging
 from src.components.data_ingestion import DataIngestion
 from src.components.data_validation import DataValidation
@@ -47,7 +47,7 @@ class TrainPipeline:
             )
             return data_ingestion_artifact
         except Exception as e:
-            raise USvisaException(e, sys) from e
+            raise AppException(e, sys) from e
         
     def start_data_validation(self, data_ingestion_artifact: DataIngestionArtifact) -> DataValidationArtifact:
         """
@@ -72,7 +72,7 @@ class TrainPipeline:
             return data_validation_artifact
 
         except Exception as e:
-            raise USvisaException(e, sys) from e
+            raise AppException(e, sys) from e
 
     def start_data_transformation(self, data_ingestion_artifact: DataIngestionArtifact, data_validation_artifact: DataValidationArtifact) -> DataTransformationArtifact:
         """
@@ -85,7 +85,7 @@ class TrainPipeline:
             data_transformation_artifact = data_transformation.initiate_data_transformation()
             return data_transformation_artifact
         except Exception as e:
-            raise USvisaException(e, sys)
+            raise AppException(e, sys)
     
     def start_model_trainer(self, data_transformation_artifact: DataTransformationArtifact) -> ModelTrainerArtifact:
         """
@@ -99,7 +99,7 @@ class TrainPipeline:
             return model_trainer_artifact
 
         except Exception as e:
-            raise USvisaException(e, sys)
+            raise AppException(e, sys)
     
     
     def start_model_evaluation(self, data_ingestion_artifact: DataIngestionArtifact,
@@ -114,7 +114,7 @@ class TrainPipeline:
             model_evaluation_artifact = model_evaluation.initiate_model_evaluation()
             return model_evaluation_artifact
         except Exception as e:
-            raise USvisaException(e, sys)
+            raise AppException(e, sys)
 
     def start_model_pusher(self, model_evaluation_artifact: ModelEvaluationArtifact) -> ModelPusherArtifact:
         """
@@ -127,7 +127,7 @@ class TrainPipeline:
             model_pusher_artifact = model_pusher.initiate_model_pusher()
             return model_pusher_artifact
         except Exception as e:
-            raise USvisaException(e, sys)
+            raise AppException(e, sys)
 
 
     def run_pipeline(self, ) -> None:
@@ -152,4 +152,4 @@ class TrainPipeline:
                 model_evaluation_artifact=model_evaluation_artifact)
 
         except Exception as e:
-            raise USvisaException(e, sys)
+            raise AppException(e, sys)

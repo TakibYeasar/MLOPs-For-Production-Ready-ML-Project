@@ -2,7 +2,7 @@ import sys
 import os
 import pymongo
 import certifi
-from src.exception import USvisaException
+from src.exception import AppException
 from src.logger import logging
 from src.constants import DATABASE_NAME, MONGODB_URL_KEY
 
@@ -30,4 +30,4 @@ class MongoDBClient:
             self.database_name = database_name
             logging.info("MongoDB connection succesfull")
         except Exception as e:
-            raise USvisaException(e,sys)
+            raise AppException(e,sys)

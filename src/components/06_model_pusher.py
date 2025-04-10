@@ -1,6 +1,6 @@
 import sys
 from src.logger import logging
-from src.exception import USvisaException
+from src.exception import AppException
 from src.cloud_storage.aws_storage import SimpleStorageService
 from src.entity.artifact_entity import ModelPusherArtifact, ModelEvaluationArtifact
 from src.entity.config_entity import ModelPusherConfig
@@ -47,4 +47,4 @@ class ModelPusher:
 
             return model_pusher_artifact
         except Exception as e:
-            raise USvisaException(e, sys) from e
+            raise AppException(e, sys) from e

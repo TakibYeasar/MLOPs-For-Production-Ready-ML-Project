@@ -5,9 +5,9 @@ import pandas as pd
 from pandas import DataFrame
 from src.entity.config_entity import USvisaPredictorConfig
 from src.entity.s3_estimator import USvisaEstimator
-from src.exception import USvisaException
+from src.exception import AppException
 from src.logger import logging
-from src.utils.main_utils import read_yaml_file
+from src.utils.utils import read_yaml_file
 
 
 class USvisaData:
@@ -40,7 +40,7 @@ class USvisaData:
             self.company_age = company_age
 
         except Exception as e:
-            raise USvisaException(e, sys) from e
+            raise AppException(e, sys) from e
 
     def get_usvisa_input_data_frame(self) -> DataFrame:
         """
@@ -52,7 +52,7 @@ class USvisaData:
             return DataFrame(usvisa_input_dict)
 
         except Exception as e:
-            raise USvisaException(e, sys) from e
+            raise AppException(e, sys) from e
 
     def get_usvisa_data_as_dict(self):
         """
@@ -83,7 +83,7 @@ class USvisaData:
             return input_data
 
         except Exception as e:
-            raise USvisaException(e, sys) from e
+            raise AppException(e, sys) from e
 
 
 class USvisaClassifier:
@@ -95,7 +95,7 @@ class USvisaClassifier:
             # self.schema_config = read_yaml_file(SCHEMA_FILE_PATH)
             self.prediction_pipeline_config = prediction_pipeline_config
         except Exception as e:
-            raise USvisaException(e, sys)
+            raise AppException(e, sys)
 
     def predict(self, dataframe) -> str:
         """
@@ -113,4 +113,4 @@ class USvisaClassifier:
             return result
 
         except Exception as e:
-            raise USvisaException(e, sys)
+            raise AppException(e, sys)

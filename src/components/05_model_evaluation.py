@@ -3,7 +3,7 @@ import pandas as pd
 from typing import Optional
 from sklearn.metrics import f1_score
 from dataclasses import dataclass
-from src.exception import USvisaException
+from src.exception import AppException
 from src.logger import logging
 from src.entity.s3_estimator import USvisaEstimator
 from src.entity.estimator import TargetValueMapping
@@ -28,7 +28,7 @@ class ModelEvaluation:
             self.data_ingestion_artifact = data_ingestion_artifact
             self.model_trainer_artifact = model_trainer_artifact
         except Exception as e:
-            raise USvisaException(e, sys) from e
+            raise AppException(e, sys) from e
 
     def get_best_model(self) -> Optional[USvisaEstimator]:
         """
@@ -48,7 +48,7 @@ class ModelEvaluation:
                 return usvisa_estimator
             return None
         except Exception as e:
-            raise USvisaException(e, sys)
+            raise AppException(e, sys)
 
     def evaluate_model(self) -> EvaluateModelResponse:
         """
@@ -87,7 +87,7 @@ class ModelEvaluation:
             return result
 
         except Exception as e:
-            raise USvisaException(e, sys)
+            raise AppException(e, sys)
 
     def initiate_model_evaluation(self) -> ModelEvaluationArtifact:
         """
@@ -111,4 +111,4 @@ class ModelEvaluation:
                 f"Model evaluation artifact: {model_evaluation_artifact}")
             return model_evaluation_artifact
         except Exception as e:
-            raise USvisaException(e, sys) from e
+            raise AppException(e, sys) from e

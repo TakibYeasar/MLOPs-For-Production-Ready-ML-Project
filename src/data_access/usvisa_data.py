@@ -4,7 +4,7 @@ import pandas as pd
 from typing import Optional
 from src.config.mongo_db_connection import MongoDBClient
 from src.constants import DATABASE_NAME
-from src.exception import USvisaException
+from src.exception import AppException
 
 
 class USvisaData:
@@ -18,7 +18,7 @@ class USvisaData:
         try:
             self.mongo_client = MongoDBClient(database_name=DATABASE_NAME)
         except Exception as e:
-            raise USvisaException(e,sys)
+            raise AppException(e,sys)
         
 
     def export_collection_as_dataframe(self,collection_name:str,database_name:Optional[str]=None)->pd.DataFrame:
@@ -38,4 +38,4 @@ class USvisaData:
             df.replace({"na":np.nan},inplace=True)
             return df
         except Exception as e:
-            raise USvisaException(e,sys)
+            raise AppException(e,sys)

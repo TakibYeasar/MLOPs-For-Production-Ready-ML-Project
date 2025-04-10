@@ -4,9 +4,9 @@ import pandas as pd
 from pandas import DataFrame
 from evidently.model_profile import Profile
 from evidently.model_profile.sections import DataDriftProfileSection
-from src.exception import USvisaException
+from src.exception import AppException
 from src.logger import logging
-from src.utils.main_utils import read_yaml_file, write_yaml_file
+from src.utils.utils import read_yaml_file, write_yaml_file
 from src.entity.artifact_entity import DataIngestionArtifact, DataValidationArtifact
 from src.entity.config_entity import DataValidationConfig
 from src.constants import SCHEMA_FILE_PATH
@@ -23,7 +23,7 @@ class DataValidation:
             self.data_validation_config = data_validation_config
             self._schema_config = read_yaml_file(file_path=SCHEMA_FILE_PATH)
         except Exception as e:
-            raise USvisaException(e, sys)
+            raise AppException(e, sys)
 
     def validate_number_of_columns(self, dataframe: DataFrame) -> bool:
         """
@@ -39,7 +39,7 @@ class DataValidation:
             logging.info(f"Is required column present: [{status}]")
             return status
         except Exception as e:
-            raise USvisaException(e, sys)
+            raise AppException(e, sys)
 
     def is_column_exist(self, df: DataFrame) -> bool:
         """
@@ -71,14 +71,14 @@ class DataValidation:
 
             return False if len(missing_categorical_columns) > 0 or len(missing_numerical_columns) > 0 else True
         except Exception as e:
-            raise USvisaException(e, sys) from e
+            raise AppException(e, sys) from e
 
     @staticmethod
     def read_data(file_path) -> DataFrame:
         try:
             return pd.read_csv(file_path)
         except Exception as e:
-            raise USvisaException(e, sys)
+            raise AppException(e, sys)
 
     def detect_dataset_drift(self, reference_df: DataFrame, current_df: DataFrame, ) -> bool:
         """
@@ -106,7 +106,7 @@ class DataValidation:
             drift_status = json_report["data_drift"]["data"]["metrics"]["dataset_drift"]
             return drift_status
         except Exception as e:
-            raise USvisaException(e, sys) from e
+            raise AppException(e, sys) from e
 
     def initiate_data_validation(self) -> DataValidationArtifact:
         """
@@ -166,4 +166,4 @@ class DataValidation:
                 f"Data validation artifact: {data_validation_artifact}")
             return data_validation_artifact
         except Exception as e:
-            raise USvisaException(e, sys) from e
+            raise AppException(e, sys) from e

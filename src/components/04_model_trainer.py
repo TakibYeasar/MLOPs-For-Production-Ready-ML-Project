@@ -3,9 +3,9 @@ from typing import Tuple
 import numpy as np
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 from neuro_mf import ModelFactory
-from src.exception import USvisaException
+from src.exception import AppException
 from src.logger import logging
-from src.utils.main_utils import load_numpy_array_data, load_object, save_object
+from src.utils.utils import load_numpy_array_data, load_object, save_object
 from src.entity.config_entity import ModelTrainerConfig
 from src.entity.artifact_entity import DataTransformationArtifact, ModelTrainerArtifact, ClassificationMetricArtifact
 from src.entity.estimator import USvisaModel
@@ -54,7 +54,7 @@ class ModelTrainer:
             return best_model_detail, metric_artifact
 
         except Exception as e:
-            raise USvisaException(e, sys) from e
+            raise AppException(e, sys) from e
 
     def initiate_model_trainer(self, ) -> ModelTrainerArtifact:
         logging.info(
@@ -99,4 +99,4 @@ class ModelTrainer:
             logging.info(f"Model trainer artifact: {model_trainer_artifact}")
             return model_trainer_artifact
         except Exception as e:
-            raise USvisaException(e, sys) from e
+            raise AppException(e, sys) from e

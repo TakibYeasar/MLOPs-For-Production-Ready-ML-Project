@@ -1,7 +1,7 @@
 import sys
 from pandas import DataFrame
 from src.cloud_storage.aws_storage import SimpleStorageService
-from src.exception import USvisaException
+from src.exception import AppException
 from src.entity.estimator import USvisaModel
 
 
@@ -25,7 +25,7 @@ class USvisaEstimator:
     def is_model_present(self,model_path):
         try:
             return self.s3.s3_key_path_available(bucket_name=self.bucket_name, s3_key=model_path)
-        except USvisaException as e:
+        except AppException as e:
             print(e)
             return False
 
@@ -51,7 +51,7 @@ class USvisaEstimator:
                                 remove=remove
                                 )
         except Exception as e:
-            raise USvisaException(e, sys)
+            raise AppException(e, sys)
 
 
     def predict(self,dataframe:DataFrame):
@@ -64,4 +64,4 @@ class USvisaEstimator:
                 self.loaded_model = self.load_model()
             return self.loaded_model.predict(dataframe=dataframe)
         except Exception as e:
-            raise USvisaException(e, sys)
+            raise AppException(e, sys)

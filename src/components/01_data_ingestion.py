@@ -4,7 +4,7 @@ from pandas import DataFrame
 from sklearn.model_selection import train_test_split
 from src.entity.config_entity import DataIngestionConfig
 from src.entity.artifact_entity import DataIngestionArtifact
-from src.exception import USvisaException
+from src.exception import AppException
 from src.logger import logging
 from src.data_access.usvisa_data import USvisaData
 
@@ -17,7 +17,7 @@ class DataIngestion:
         try:
             self.data_ingestion_config = data_ingestion_config
         except Exception as e:
-            raise USvisaException(e, sys)
+            raise AppException(e, sys)
 
     def export_data_into_feature_store(self) -> DataFrame:
         """
@@ -42,7 +42,7 @@ class DataIngestion:
             return dataframe
 
         except Exception as e:
-            raise USvisaException(e, sys)
+            raise AppException(e, sys)
 
     def split_data_as_train_test(self, dataframe: DataFrame) -> None:
         """
@@ -74,7 +74,7 @@ class DataIngestion:
 
             logging.info(f"Exported train and test file path.")
         except Exception as e:
-            raise USvisaException(e, sys) from e
+            raise AppException(e, sys) from e
 
     def initiate_data_ingestion(self) -> DataIngestionArtifact:
         """
@@ -106,4 +106,4 @@ class DataIngestion:
             logging.info(f"Data ingestion artifact: {data_ingestion_artifact}")
             return data_ingestion_artifact
         except Exception as e:
-            raise USvisaException(e, sys) from e
+            raise AppException(e, sys) from e
