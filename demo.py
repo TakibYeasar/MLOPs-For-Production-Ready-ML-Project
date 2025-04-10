@@ -9,3 +9,7 @@
 # except Exception as e:
 #     raise USvisaException(e, sys)
 
+from src.pipeline.training_pipeline import TrainPipeline
+
+obj = TrainPipeline()
+obj.run_pipeline()
